@@ -11,31 +11,65 @@
 - 그래프 전체 지도 : int[][]
 - 방문 : bool[][]
 - Queue(BFS)
+
+문제
+https://www.acmicpc.net/problem/1926
 """
 
+from collections import deque
 import sys
 input = sys.stdin.readline
 # 가로 m 세로 n , map[n][n]
-n, m = map(int, input())
-map = [list(map(int, input().split())) for _ in range(n)] 
+n, m = map(int, input().split())
+list1 = [list(map(int, input().split())) for _ in range(n)] 
 chk = [[False] * m for _ in range(n)]
  
 dy = [0, 1, 0, -1]
 dx = [1, 0, -1, 0]
 
 
-def bfs(y, x) 
+def bfs(y, x):
+  rs = 1
+  q = deque()  
+  q.append((y, x))
+    
+  while q:
+    ey, ex = q.popleft()
+    for k in range(4):
+      ny = ey + dy[k]
+      nx = ex + dx[k]
+      if 0<=ny<n and 0<=nx<m:
+        if list1[ny][nx] == 1 and chk[ny][nx] == False:
+          rs += 1
+          chk[ny][nx] = True
+          q.append((ny, nx))
+  return rs
 
 
 cnt = 0
-maxv = 0
+maxvalue = 0
 
-for i in range(m):
-  for j in range(n):
-    if map[i][j] == 1 and chk[i][j] == False:
+for j in range(n):
+  for i in range(m):
+    if list1[j][i] == 1 and chk[j][i] == False:
         chk[j][i] = True
         cnt += 1
-        maxv = max(maxv, bfs(i, j))
+        maxvalue = max(maxvalue, bfs(j, i))
 
 print(cnt)
-print(maxv)
+print(maxvalue)
+
+'''
+입력
+6 5
+1 1 0 1 1
+0 1 1 0 0
+0 0 0 0 0
+1 0 1 1 1
+0 0 1 1 1
+0 0 1 1 1
+출력
+4
+9
+
+'''
