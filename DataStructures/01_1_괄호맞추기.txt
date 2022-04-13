@@ -1,0 +1,15 @@
+def parChecker(parSeq):
+  S = Stack()
+  for symbol in parSeq:
+    if symbol is "(":
+      S.push(symbol)
+    else: # symbol == ")"
+      if S is empty: # if nothing matched
+        return False
+      else: # symbol == ")"이고,
+            # 스택에 저장된 건 " (" 뿐이므로
+        S.pop()
+  if S is empty: # 스택에 남아 있는게 없어야 짝짓기 완성
+    return True
+  else:
+    return False
